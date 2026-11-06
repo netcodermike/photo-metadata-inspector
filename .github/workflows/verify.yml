@@ -1,0 +1,15 @@
+name: Build and verify
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Build and check
+        run: |
+          swift build -c release
+          swift run -c release PhotoMetadata --self-test
